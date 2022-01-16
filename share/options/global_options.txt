@@ -1,0 +1,7 @@
+#!/bin/bash
+#   OPTIONS:
+#     --log-file string log file path
+#     --quiet boolean if present nothing will be displayed default:false
+#     --verbose boolean if present some information will be displayed default:false
+#     --very-verbose boolean if present more information will be displayed default:false
+#

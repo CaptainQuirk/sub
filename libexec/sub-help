@@ -8,9 +8,11 @@ print_summaries() {
   local command
 
   for command in $(sub-commands); do
-    local file="$(command_path "$command")"
+    local file
+    file="$(command_path "$command")"
     if [ ! -h "$file" ]; then
-      local summary="$(summary "$file")"
+      local summary
+      summary="$(summary "$file")"
       if [ -n "$summary" ]; then
         commands["${#commands[@]}"]="$command"
         summaries["${#summaries[@]}"]="$summary"
@@ -23,8 +25,10 @@ print_summaries() {
   done
 
   local index
-  local columns="$(tput cols)"
-  local summary_length=$(( $columns - $longest_command - 5 ))
+  local columns
+  local summary_length
+  columns="$(tput cols)"
+  summary_length=$(( columns - longest_command - 5 ))
 
   for (( index=0; index < ${#commands[@]}; index++ )); do
     printf "   %-${longest_command}s  %s\n" "${commands[$index]}" \
@@ -34,15 +38,18 @@ print_summaries() {
 
 print_help() {
   local file="$1"
-  local usage="$(usage "$file")"
+  local usage
+  usage="$(usage "$file")"
 
   if [ -n "$usage" ]; then
     echo "$usage"
-    
-    local summary="$(summary "$file")"
+
+    local summary
+    summary="$(summary "$file")"
     [ -n "$summary" ] && echo "Summary: $summary"
 
-    local help="$(help "$file")"
+    local help
+    help="$(help "$file")"
     [ -n "$help" ] && echo && echo "$help"
   else
     echo "Sorry, this command isn't documented yet."
@@ -70,7 +77,7 @@ truncate() {
   local string="$2"
 
   if [ "${#string}" -gt "$max_length" ]; then
-    local length=$(( $max_length - 3 ))
+    local length=$(( max_length - 3 ))
     echo "${string:0:$length}..."
   else
     echo "$string"

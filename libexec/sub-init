@@ -13,11 +13,12 @@ if [ -z "$shell" ]; then
 fi
 
 resolve_link() {
-  $(type -p greadlink readlink | head -1) $1
+  $(type -p greadlink readlink | head -1) "$1"
 }
 
 abs_dirname() {
-  local cwd="$(pwd)"
+  local cwd
+  cwd="$(pwd)"
   local path="$1"
 
   while [ -n "$path" ]; do
@@ -35,10 +36,10 @@ root="$(abs_dirname "$0")/.."
 if [ -z "$print" ]; then
   case "$shell" in
   bash )
-    profile='~/.bash_profile'
+    profile="$HOME/.bash_profile"
     ;;
   zsh )
-    profile='~/.zshenv'
+    profile="$HOME/.zshenv"
     ;;
   * )
     profile='your profile'
@@ -63,6 +64,8 @@ bash | zsh )
   ;;
 esac
 
+# shellcheck disable=SC2207
+# shellcheck disable=SC2006
 commands=(`sub commands --sh`)
 IFS="|"
 cat <<EOS

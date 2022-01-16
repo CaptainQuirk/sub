@@ -6,7 +6,9 @@ resolve_link() {
 }
 
 abs_dirname() {
-  local cwd="$(pwd)"
+  local cwd
+
+  cwd="$(pwd)"
   local path="$1"
 
   while [ -n "$path" ]; do
@@ -20,10 +22,16 @@ abs_dirname() {
 }
 
 libexec_path="$(abs_dirname "$0")"
-export _SUB_ROOT="$(abs_dirname "$libexec_path")"
+_SUB_ROOT="$(abs_dirname "$libexec_path")"
+export _SUB_ROOT
 export PATH="${libexec_path}:$PATH"
 
 command="$1"
+
+if [[ "$command" =~ [a-z]:[a-z] ]]; then
+    command="$(echo "$command" | cut -d: -f2)-$(echo "$command" | cut -d: -f1)"
+fi
+
 case "$command" in
 "" | "-h" | "--help" )
   exec sub-help

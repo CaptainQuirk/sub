@@ -1,0 +1,7 @@
+version: '3'
+services:
+  shellcheck:
+    image: koalaman/shellcheck:stable
+    volumes:
+      - ../:/mnt
+
